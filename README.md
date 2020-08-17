@@ -5,8 +5,10 @@ An offline wrapper of [Fraco](http://www.cs.mcgill.ca/~swevo/Fraco), implemented
 ```bash
 # install RefactoringMiner
 git clone https://github.com/tsantalis/RefactoringMiner.git
-git checkout 579669ac
+cd RefactoringMiner
+git checkout 579669a
 ./gradlew install
+cd ..
 
 # compile
 mvn compile
