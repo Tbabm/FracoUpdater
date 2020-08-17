@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FracoRepair {
+public class FracoUpdater {
     RefactoringWrapperFactory refWrapperFactory;
     RenameExtractor extractor;
     Fraco fraco;
@@ -28,14 +28,14 @@ public class FracoRepair {
         String outFile = args[1];
         List<String> lines = Files.readAllLines(Paths.get(testSetPath));
         JsonParser parser = new JsonParser();
-        FracoRepair repair = new FracoRepair();
+        FracoUpdater updater = new FracoUpdater();
         List<RepairResult> results = new ArrayList<>();
         int count = 0;
-        for (String line : ProgressBar.wrap(lines, "FracoRepair")){
+        for (String line : ProgressBar.wrap(lines, "FracoUpdater")){
             ++count;
             JsonObject jObject = parser.parse(line).getAsJsonObject();
             Sample sample = new Sample(jObject);
-            RepairResult curResult = repair.repairSample(sample);
+            RepairResult curResult = updater.updateSample(sample);
             results.add(curResult);
         }
         System.out.println(results.size());
@@ -49,20 +49,20 @@ public class FracoRepair {
         return;
     }
 
-    public FracoRepair(){
+    public FracoUpdater(){
         extractor = new RenameExtractor();
         fraco = new Fraco(true, true);
         refWrapperFactory = new RefactoringWrapperFactory();
     }
 
-    public RepairResult repairSample(Sample sample) throws Exception {
-        return repairOne(sample.getSrcMethod(), sample.getDstMethod(), sample.getSrcDesc());
+    public RepairResult updateSample(Sample sample) throws Exception {
+        return updateOne(sample.getSrcMethod(), sample.getDstMethod(), sample.getSrcDesc());
     }
 
     /**
-     * get the comment that is repaired by Fraco
+     * get the comment updated by Fraco
      */
-    public RepairResult repairOne(String srcMethod, String dstMethod, String srcDesc) throws Exception {
+    public RepairResult updateOne(String srcMethod, String dstMethod, String srcDesc) throws Exception {
         List<Refactoring> refs = extractor.extract(srcMethod, dstMethod);
         String comment = srcDesc;
         boolean matched = false;

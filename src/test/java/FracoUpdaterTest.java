@@ -4,10 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class FracoRepairTest {
+public class FracoUpdaterTest {
     String method1;
     String method2;
-    FracoRepair repair;
+    FracoUpdater updater;
 
     @Before
     public void setMethods(){
@@ -17,14 +17,14 @@ public class FracoRepairTest {
         this.method2 = "public static void testCoraf(int shortInt){\n" +
                 "\tString longStr;\n" +
                 "}";
-        repair = new FracoRepair();
+        updater = new FracoUpdater();
     }
 
     @Test
     public void testRepairOne() throws Exception {
         String srcDesc = "This method testFraco gets longInt and return shortStr";
         String destDesc = "This method testCoraf gets shortInt and return longStr";
-        RepairResult result = repair.repairOne(method1, method2, srcDesc);
+        RepairResult result = updater.updateOne(method1, method2, srcDesc);
         assertEquals(true, result.isMatched());
         assertEquals(destDesc, result.getResult());
     }
@@ -33,7 +33,7 @@ public class FracoRepairTest {
     public void testRepairOne_splitTokens() throws Exception {
         String srcDesc = "This method test fraco gets long int and return short str";
         String destDesc = "This method testCorafs gets shortInts and return longStrs";
-        RepairResult result = repair.repairOne(method1, method2, srcDesc);
+        RepairResult result = updater.updateOne(method1, method2, srcDesc);
         assertEquals(true, result.isMatched());
         assertEquals(destDesc, result.getResult());
     }
@@ -59,7 +59,7 @@ public class FracoRepairTest {
                 "        });\n" +
                 "    }";
         String srcDesc = "Build a new HttpPipeline that will use the provided HttpClient and RequestPolicy factories.";
-        RepairResult result = repair.repairOne(method1, method2, srcDesc);
+        RepairResult result = updater.updateOne(method1, method2, srcDesc);
         assertEquals(false, result.isMatched());
         System.out.println(result.getResult());
     }
@@ -74,7 +74,7 @@ public class FracoRepairTest {
                 "        this.properties = properties;\n" +
                 "    }";
         String srcDesc = "Set the ipConfigurations value.";
-        RepairResult result = repair.repairOne(method1, method2, srcDesc);
+        RepairResult result = updater.updateOne(method1, method2, srcDesc);
         assertEquals(false, result.isMatched());
         System.out.println(result.getResult());
     }
@@ -95,7 +95,7 @@ public class FracoRepairTest {
                 "\t\treturn bd;\n" +
                 "\t}";
         String srcDesc = "Get Unit Price.";
-        RepairResult result = repair.repairOne(method1, method2, srcDesc);
+        RepairResult result = updater.updateOne(method1, method2, srcDesc);
         assertEquals(false, result.isMatched());
         System.out.println(result.getResult());
     }
@@ -126,7 +126,7 @@ public class FracoRepairTest {
                 "\t\treturn null;\n" +
                 "\t}";
         String srcDesc = "Returns the first sync d l object in the ordered set where parentFolderId = ?.";
-        RepairResult result = repair.repairOne(method1, method2, srcDesc);
+        RepairResult result = updater.updateOne(method1, method2, srcDesc);
         assertEquals(false, result.isMatched());
         System.out.println(result.getResult());
     }
@@ -156,7 +156,7 @@ public class FracoRepairTest {
                 "            serviceCallback);\n" +
                 "    }";
         String srcDesc = "Gets all route tables in a subscription";
-        RepairResult result = repair.repairOne(method1, method2, srcDesc);
+        RepairResult result = updater.updateOne(method1, method2, srcDesc);
         assertEquals(false, result.isMatched());
         System.out.println(result.getResult());
     }
